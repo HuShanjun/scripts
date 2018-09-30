@@ -1,2 +1,3 @@
 # scripts
-各种脚本
+
+[monitor用法](./monitor/readme.md)
