@@ -49,9 +49,11 @@ lsofnum(){
 		echo $t
 		return
 	fi
-	count=`lsof -i:$1 | wc -l`
+	count=`netstat -nat|grep -i "$1"|wc -l`
+        declare -i t=${count}-1
+#	count=`lsof -i:$1 | wc -l`
 #	t=`expr $count - 2`
-	declare -i t=${count}-2
+#	declare -i t=${count}-2
 	echo $t
 }
 main_proc_monitor() {
