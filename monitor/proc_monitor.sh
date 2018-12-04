@@ -1,5 +1,4 @@
 #!/bin/bash
-
 now_date() {
 	echo `date "+%Y-%m-%d %H:%M:%S"`
 }
@@ -36,47 +35,36 @@ process_cpu_rate() {
 }
 
 refresh_window() {
-	clear
+    clear
     echo ${@:1:2}
-	echo "CPU(%):${@:3:1}"
+    echo "CPU(%):${@:3:1}"
     echo $(process_mem title)
     echo ${@:4}
 }
 
 lsofnum(){
-	if [ $1 -eq -1 ]
-	then
-		echo $t
-		return
-	fi
-	count=`netstat -nat|grep -i "$1"|wc -l`
-        declare -i t=${count}-1
-#	count=`lsof -i:$1 | wc -l`
-#	t=`expr $count - 2`
-#	declare -i t=${count}-2
-	echo $t
+	count=$(netstat -nat|grep "$1"|wc -l)
+	echo $((10#${count}-1))
 }
 main_proc_monitor() {
 	if [ -z "$1" ];then
 		echo "please enter process pid"
 		return
 	fi
-	if [ -z "$2" ];then
-		echo "please enter port number"
+	if [ $# != 1 ];then
+		echo "now only need input port,i will calc pid for this port"
 		return
 	fi
 
-	local port=-1
-	if [ $# -ge 2 ]; then
-		port=$2
+        pid=$(lsof -i:$1 |awk '{print $2}' |sed -n '2p')
+	
+	if [ -z $pid ]; then
+		 echo "conn't get pid"
+		 return
 	fi
-
-	local time=1
-	if [ $# -ge 3 ]; then
-		time=$3
-	fi
-	echo "间隔${time}秒收集一次"
-
+	echo "get pid:$pid"
+        time=1
+	port=$1
 	OUTPUT_FILENAME=$1"monitor.csv"
 	if [ ! -f "$OUTPUT_FILENAME" ];then
 		touch $OUTPUT_FILENAME
@@ -87,23 +75,20 @@ main_proc_monitor() {
 	title="datetime,cpu,VmSize,VmRss,VmData,VmStk,VmExe,VmLib,connectNum"
 	echo $title >> $OUTPUT_FILENAME
 
-	status1=$(process_cpu $1)
-
+	status1=$(process_cpu $pid)
 	while true
 	do
-		total1=`echo $status1 | awk '{print $1}'`
+		total1=`echo $status1 | awk '{print $1'}`
 		proc1=`echo $status1 | awk '{print $2}'`
-
-
+		
 		sleep $time
-
-		status2=$(process_cpu $1)
+		status2=$(process_cpu $pid)
 		total2=`echo $status2 | awk '{print $1}'`
 		proc2=`echo $status2 | awk '{print $2}'`
-
+		
 		now_date=$(now_date)
 		proc_cpu_rate=$(process_cpu_rate $total1 $proc1 $total2 $proc2)
-		mem=$(process_mem $1)
+		mem=$(process_mem $pid)
 		count=$(lsofnum $port)
 		echo $now_date,$proc_cpu_rate,$mem,$count >> $OUTPUT_FILENAME
 		echo $proc_cpu_rate,$mem,$count
