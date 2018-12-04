@@ -24,5 +24,5 @@ wget https://raw.githubusercontent.com/guhan121/scripts/master/monitor/proc_moni
 设置权限
 `chmod a+x proc_monitor.sh`
 
-`proc_monitor.sh pid listenPort [interval]`
+`proc_monitor.sh listenPort`
 
