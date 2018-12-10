@@ -28,8 +28,8 @@ process_cpu() {
 
 process_cpu_rate() {
 	# processCPUUse = processTime / totalCPUTime
-	processTime=`expr $4 - $2`
-	totalCPUTime=`expr $3 - $1`
+	processTime=$(( $4 - $2 ))
+	totalCPUTime=$(($3 - $1))
 	rate=`awk 'BEGIN{printf "%.1f",('$processTime'/'$totalCPUTime')*100}'`
 	//rate=`expr "scale=2;$processTime * 100 / $totalCPUTime" | bc -l`
 	echo $rate
