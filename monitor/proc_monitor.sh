@@ -31,7 +31,7 @@ process_cpu_rate() {
 	processTime=$(( $4 - $2 ))
 	totalCPUTime=$(($3 - $1))
 	rate=`awk 'BEGIN{printf "%.1f",('$processTime'/'$totalCPUTime')*100}'`
-	//rate=`expr "scale=2;$processTime * 100 / $totalCPUTime" | bc -l`
+	#rate=`expr "scale=2;$processTime * 100 / $totalCPUTime" | bc -l`
 	echo $rate
 }
 
