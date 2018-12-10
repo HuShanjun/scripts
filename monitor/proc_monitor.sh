@@ -28,9 +28,9 @@ process_cpu() {
 
 process_cpu_rate() {
 	# processCPUUse = processTime / totalCPUTime
-	
-	processTime=`awk '{print "%f",$4-$2}'`
-	totalCPUTime=`awk '{print "%f",$3-$1}'`
+	processTime=`echo "$4 $2"|awk '{print ($1-$2)}'`
+        totalCPUTime=`echo "$3 $1"|awk '{print ($1-$2)}'`
+
 	rate=`awk 'BEGIN{printf "%.1f",('$processTime'/'$totalCPUTime')*100}'`
 	#rate=`expr "scale=2;$processTime * 100 / $totalCPUTime" | bc -l`
 	echo $rate
