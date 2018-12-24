@@ -67,7 +67,7 @@ main_proc_monitor() {
 	echo "get pid:$pid"
         time=1
 	port=$1
-	OUTPUT_FILENAME=$1"monitor.csv"
+	OUTPUT_FILENAME="pid$1_$(date +%Y_%m_%d-%H_%M_%S)_monitor.csv"
 	if [ ! -f "$OUTPUT_FILENAME" ];then
 		touch $OUTPUT_FILENAME
 	fi
