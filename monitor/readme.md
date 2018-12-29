@@ -26,3 +26,16 @@ wget https://raw.githubusercontent.com/guhan121/scripts/master/monitor/proc_moni
 
 `proc_monitor.sh listenPort`
 
+
+
+
+## linuxInfo.sh
+
+`
+wget https://raw.githubusercontent.com/guhan121/scripts/master/monitor/linuxInfo.sh
+`
+
+设置权限
+`chmod a+x linuxInfo.sh`
+
+`./linuxInfo.sh`
