@@ -58,7 +58,7 @@ main_proc_monitor() {
 		return
 	fi
 
-        pid=$(lsof -i:$1 |awk '{print $2}' |sed -n '2p')
+        pid=$(netstat -apn |grep :$1|awk '{print $7 }'| awk '{split($0,b,"/");print b[1]}')
 	
 	if [ -z $pid ]; then
 		 echo "conn't get pid"
