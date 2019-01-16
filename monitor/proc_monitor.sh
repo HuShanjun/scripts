@@ -53,7 +53,7 @@ main_proc_monitor() {
 		echo "./proc_monitor.sh pid port"
 		return
 	fi
-	port=$1
+	pid=$1
 	if [ -z $pid ]; then
 		 echo "conn't get pid"
 		 return
