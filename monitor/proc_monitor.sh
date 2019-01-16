@@ -49,24 +49,18 @@ lsofnum(){
 	echo $((10#${count}-1))
 }
 main_proc_monitor() {
-	if [ -z "$1" ];then
-		echo "please enter process pid"
+	if [ $# != 2 ];then
+		echo "./proc_monitor.sh pid port"
 		return
 	fi
-	if [ $# != 1 ];then
-		echo "now only need input port,i will calc pid for this port"
-		return
-	fi
-
-        pid=$(netstat -apn |grep :$1|awk '{print $7 }'| awk '{split($0,b,"/");print b[1]}')
-	
+	port=$1
 	if [ -z $pid ]; then
 		 echo "conn't get pid"
 		 return
 	fi
 	echo "get pid:$pid"
         time=1
-	port=$1
+	port=$2
 	OUTPUT_FILENAME="pid$1_$(date +%Y_%m_%d-%H_%M_%S)_monitor.csv"
 	if [ ! -f "$OUTPUT_FILENAME" ];then
 		touch $OUTPUT_FILENAME
