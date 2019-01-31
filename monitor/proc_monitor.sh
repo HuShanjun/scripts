@@ -5,7 +5,10 @@ now_date() {
 
 process_mem() {
 	mem_info=`cat /proc/$1/status | grep -E 'VmSize|VmRSS|VmData|VmStk|VmExe|VmLib'`
-	if [ -z $meminfo ];then exit -3;fi
+	if [ -z $meminfo ]; then  
+    		echo "process exit"  
+    		exit 2  
+	fi  
 	vm_size=`echo "${mem_info}" | grep -E 'VmSize' | cut -d:  -f2 | sed s/[[:space:]]//g | awk '{sub(/..$/,"")}1'`
 	vm_rss=`echo "${mem_info}" | grep -E 'VmRSS' | cut -d:  -f2 | sed s/[[:space:]]//g | awk '{sub(/..$/,"")}1'`
 	vm_data=`echo "${mem_info}" | grep -E 'VmData' | cut -d:  -f2 | sed s/[[:space:]]//g | awk '{sub(/..$/,"")}1'`
@@ -22,7 +25,10 @@ process_cpu() {
 	cpulog=`cat /proc/stat | grep 'cpu ' | awk '{print $2,$3,$4,$5,$6,$7,$8}'`
 	totalCPUTime=`echo $cpulog | awk '{print $1 + $2 + $3 + $4 + $5 + $6 + $7}'`
 	process_cpulog=`cat /proc/$1/stat | awk '{print $14,$15,$16,$17}'`
-	if [ -z $process_cpulog ];then exit -3;fi
+	if [ -z $process_cpulog ]; then  
+    		echo "process exit"  
+    		exit 2  
+	fi  
 	processTime=`echo $process_cpulog | awk '{print $1 + $2 + $3 + $4}'`
 	echo $totalCPUTime $processTime
 
